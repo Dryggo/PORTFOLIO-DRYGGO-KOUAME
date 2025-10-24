@@ -1,0 +1,1164 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-color: black;
+  border-radius: 1%;
+  box-shadow: 0 4rem 1rem rgba(0, 0, 0, 1);
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
+  padding: 2%;
+  background-color: #f0f0f0;
+}
+
+/* ===============================
+   VERSION TABLETTE / MOBILE
+================================*/
+@media (max-width: 768px) {
+  body {
+    margin: 0; /* supprime les marges externes */
+    padding: 0; /* supprime les espacements internes */
+    border: none; /* supprime toute bordure */
+    border-radius: 0; /* coins plats */
+    box-shadow: none; /* supprime l’ombre */
+    background-color: #f0f0f0; /* fond uni et clair */
+  }
+}
+/* style sur l'entête de la page */
+header {
+  position: fixed;
+  top: 0;
+  left: 2%;
+  width: calc(100% - 70px); /*largeur moins les marges du body*/
+  height: 15vh;
+  padding: 1rem;
+  min-height: 60px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  background: #f5f5f5;
+  z-index: 1000;
+  justify-content: space-between; /* pour un espace egal entre les elements */
+  flex-wrap: wrap; /*pour passer à la ligne*/
+  border-bottom: 5px groove #ccc;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.logo {
+  border-radius: 50%;
+  /* margin-top: -1%; */
+  width: clamp(
+    50px,
+    10vw,
+    120px
+  ); /* largeur flexible selon la taille d’écran */
+  height: auto;
+  object-fit: cover;
+  border-color: transparent;
+}
+/* photo de l'entete */
+.ma-photo {
+  float: right;
+  border-radius: 10px;
+  border: 3px inset antiquewhite;
+  width: clamp(60px, 8vw, 130px);
+  height: 100%; /* s’adapte aussi à la hauteur du ruban */
+  max-height: 20vh;
+  object-fit: cover;
+}
+
+/* style sur le menu */
+.menu {
+  position: fixed;
+  top: calc(15vh + 34px);
+  left: 20px;
+  background-color: #f5f5f5; /* couleur de fond gris clair */
+  width: calc(100% - 50px);
+  z-index: 999;
+  border-radius: 120px; /*bords du ruban arrondis*/
+  border: 5px inset #ccc;
+  font-size: 1.2em;
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: 10px 10px 7px;
+}
+.menu nav {
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* style sur les elts ul du menu */
+.menu ul {
+  flex-wrap: wrap; /*pour passer à la ligne*/
+  display: flex; /*pour afficher les elts horizontalement*/
+  justify-content: space-between;
+  align-items: center; /*aligne les elts*/
+  letter-spacing: 3px;
+  gap: 2%; /*Espace horizontal entre chaque lien*/
+  list-style: none; /*enleve les puces de la liste */
+  margin: 0;
+  padding: 0;
+}
+.menu li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* style sur les liens  dans le menu*/
+.menu a {
+  text-decoration: none; /*enleve les soulignements des liens*/
+  font-weight: bold;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  /* white-space: nowrap; évite les coupures de mot */
+}
+/* changement de couleur au survol des liens dans le menu */
+.menu a:hover {
+  color: #d02090; /*couleur rouge violet*/
+}
+@media (max-width: 992px) {
+  header {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    top: 0;
+    padding-bottom: 10px;
+  }
+
+  .menu {
+    position: static; /* le menu n’est plus fixe, il descend sous le header */
+    transform: none;
+    width: 100%;
+    border-radius: 0;
+    border: none;
+  }
+  .menu ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    gap: 10px;
+    text-align: center;
+    padding: 0;
+    font-size: 0.9em;
+    flex-wrap: wrap; /*pour passer à la ligne*/
+  }
+
+  .menu li {
+    padding: 1px 0;
+    border: 1px solid #ccc;
+    flex-wrap: wrap; /*pour passer à la ligne*/
+  }
+  .logo {
+    width: 100px;
+    height: 100px;
+  }
+  .ma-photo {
+    display: block;
+    margin: 10px auto; /* centrée */
+    max-height: 13vh;
+  }
+}
+@media (max-width: 600px) {
+  header {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    top: 0;
+    padding-bottom: 10px;
+  }
+
+  .logo,
+  .ma-photo {
+    max-height: 10vh;
+  }
+}
+/* je me suis arreté ici pour continuer demain merci */
+.page {
+  margin-top: calc(15vh + 60px + 20px);
+  width: 100%;
+  max-width: 1200px;
+}
+section {
+  scroll-margin-top: calc(15vh + 60px + 20px);
+}
+/* style sur la partie d'acceuil */
+
+#acceuil,
+#propos-moi,
+#Competence,
+#Projets,
+#Ccontact,
+#formulaires {
+  display: block;
+  max-width: 300vw;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.acceuil {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* style sur mes mon intro */
+.infos {
+  flex-wrap: wrap; /*pour passer à la ligne*/
+  flex: 1;
+  margin-left: 15%;
+  word-spacing: 0.5em;
+  line-height: 2em;
+  font-size: 2em;
+}
+
+/* style sur les H2 de la page */
+.page h2 {
+  font-size: 4em;
+  color: #004080;
+  border-left: 4px solid #0077cc;
+  padding-left: 10px;
+  margin-left: 10%;
+  margin-top: 16%;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /*pour passer à la ligne*/
+}
+/* sur la deuxieme photo */
+.ma-photo2 {
+  position: relative;
+  overflow: hidden; /*pour empêcher le débordement*/
+  width: 25%;
+  height: auto;
+  border: 5px double blue;
+  border-radius: 10%;
+  box-shadow: -12px 10px 6px blue;
+}
+
+/* sur les strong se trouvant dans l'acceuil */
+.acceuil strong {
+  color: #4169e1;
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 1.5em;
+}
+.acceuil em {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #0077cc;
+}
+@media (max-width: 768px) {
+  .page {
+    margin-top: -2%;
+  }
+  .acceuil {
+    flex-direction: column;
+    text-align: center;
+  }
+  .ma-photo2 {
+    width: 60%;
+  }
+  .infos {
+    font-size: 1.2em;
+  }
+}
+/* style sur le tableau comportant mon parcours */
+.propos-moi td,
+.propos-moi th {
+  border: 3.5px solid #999;
+  font-size: 1.2em;
+  padding: 1% 1%;
+  text-align: center; /*centrage des textes dans les tableaux*/
+}
+.propos-moi table {
+  border-collapse: collapse; /*permet de coller les bords*/
+  margin: 2%;
+}
+/* style sur l'entête du tableau */
+.propos-moi th {
+  background-color: #e8e8e8; /*fond gris clair pour distinguer les entetes*/
+  font-weight: bold;
+  font-style: oblique;
+  font-size: 1.5em;
+}
+
+/* style de fonnd pour les lignes paires (zébrage) */
+.propos-moi tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /*fond très clair pour alterner les lignes*/
+}
+
+/* style sur les elements des premieres colonnes */
+.propos-moi tbody td:first-child {
+  color: rgba(39, 64, 139);
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: 2px 3px 5px;
+}
+/* style sur les elements des deuxiemes colonnes */
+.propos-moi tbody td:nth-child(even) {
+  color: rgba(0, 34, 102);
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: 2px 3px 5px;
+}
+/* style sur le derniere colonne du tablezu */
+.propos-moi tbody td:last-child {
+  color: #36648b;
+  font-weight: bold;
+  font-style: italic;
+  text-shadow: 2px 3px 5px;
+}
+.propos-moi a {
+  color: #36648b;
+  text-decoration: none;
+}
+.propos-moi a:hover {
+  color: #d02090;
+}
+
+/* style sur la partie mes qualités */
+.mes-qualite {
+  font-size: 1.5em;
+  margin: 2%;
+}
+.mes-qualite strong {
+  color: #004080;
+}
+
+/* adaptation du tableau au nivau de apropos de moi */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    /* white-space: nowrap; */
+  }
+}
+/* style sur la partie denummeration de mes compétences */
+.mes-competences,
+.realisation {
+  background-color: #f0f4ff;
+  margin-bottom: 20px;
+  margin-top: 15px;
+  padding: 15px 15px 15px 45px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-shadow: 10px 1px 5px rgba(0, 0, 0, 0.5);
+  border-left: 4px solid #3399ff;
+  position: relative;
+}
+/* sur les listes ol  */
+.mes-competences li,
+.realisation li {
+  padding-left: 20px;
+  list-style-type: lower-alpha;
+  margin-top: 5px;
+}
+
+/* sur ul */
+.mes-competences ul,
+.realisation ul {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: brown;
+}
+/* label se trouvant dans ul */
+.mes-competences strong,
+.realisation strong {
+  color: #1e90ff;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1.6em;
+}
+
+/* span se trouvant entre summary */
+.mes-competences span,
+.realisation span {
+  font-weight: bold;
+  color: #0055aa;
+  font-size: 2em;
+  text-transform: uppercase;
+}
+.mes-competences em,
+.realisation p {
+  color: black;
+  padding: 0;
+  margin-top: 1%;
+  margin-bottom: 2%;
+  font-size: 1.3em;
+}
+.realisation p {
+  justify-content: space-between;
+  margin-left: 2%;
+  word-spacing: 0.5em;
+}
+
+/* commencer ici */
+
+.Esetec {
+  display: flex; /*affiche les elts en ligne*/
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  gap: 30px; /*pour l'espacement entre les elts*/
+  padding: 20px;
+  margin-top: 90px;
+}
+.site-esetec {
+  /* display: flex; affichage en ligne */
+  border-left: 9px solid #0077cc;
+  border-right-color: transparent;
+  border-radius: 50px;
+  max-width: 25%;
+  background: #f4f4f4;
+  padding: clamp(10px, 2vw, 30px);
+  box-sizing: border-box;
+  line-height: 1.8em;
+}
+
+.projet li ul li ::before {
+  content: none !important;
+}
+.projet li ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Conteneur d'images */
+.photos-esetec {
+  position: relative;
+  overflow: hidden; /*pour empêcher le débordement*/
+  flex: 1; /*prend tout l'espace dispo */
+  width: 800px;
+  max-width: 75%; /*la taille max que peut occupée cette partie*/
+  aspect-ratio: 16 / 9;
+  margin: auto;
+}
+
+.photos-esetec .esetec {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+}
+.photos-esetec img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.photos-esetec .esetec img {
+  object-fit: contain;
+}
+/* style sur l'image d'acceuil */
+#esetec-acceuil {
+  object-fit: contain;
+  width: 400px;
+}
+/* CREATION D'ANNIMATION POUR LES PHOTOS */
+
+/* SUR LES IMAGES DU PREMIER PROJET */
+/* pour l'image d'acceuil-esetec : animation simple*/
+.esetec.acceuil-esetec {
+  animation: esetecAcceuil 12s infinite;
+}
+@keyframes esetecAcceuil {
+  0%,
+  8% {
+    opacity: 0;
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    z-index: 10;
+  }
+  25%,
+  100% {
+    opacity: 0;
+    z-index: 0;
+  }
+}
+
+/* pour l'image  de prepas : slide depuis la gauche*/
+.esetec.prepas {
+  animation: prepas 12s infinite;
+  animation-delay: 2s;
+}
+@keyframes prepas {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 10;
+  }
+  25%,
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+    z-index: 0;
+  }
+}
+
+/* pour l'image  de bts : zoom*/
+.esetec.bts {
+  animation: bts 12s infinite;
+  animation-delay: 4s;
+}
+@keyframes bts {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+    z-index: 0;
+  }
+}
+
+/* pour l'image  de cycle-ingenieur : ROTATION*/
+.esetec.cycle-ingenieur {
+  animation: cycle-ingenieur 12s infinite;
+  animation-delay: 6s;
+}
+@keyframes cycle-ingenieur {
+  0% {
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: rotate(0deg);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: rotate(180deg);
+    z-index: 0;
+  }
+}
+
+/* pour l'image  de master : slide du bas*/
+.esetec.master {
+  animation: master 12s infinite;
+  animation-delay: 8s;
+}
+@keyframes master {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: translateY(0%);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+    z-index: 0;
+  }
+}
+
+/* pour l'image  de doctorat : effet mixte(zoom+rotation*/
+.esetec.doctorat {
+  animation: doctorat 12s infinite;
+  animation-delay: 10s;
+}
+@keyframes doctorat {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: scale(1.2) rotate(90deg);
+    z-index: 0;
+  }
+}
+
+/* LES IMAGES DU DEUXIEME PROJETS */
+.esetec.chifoumi1 {
+  animation: chifoumi1 8s infinite;
+}
+
+@keyframes chifoumi1 {
+  0% {
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: rotate(0deg);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: rotate(180deg);
+    z-index: 0;
+  }
+}
+/* sur la deuxieme image */
+.esetec.esetec.chifoumi2 {
+  animation: chifoumi2 8s infinite;
+  animation-delay: 2s;
+}
+@keyframes chifoumi2 {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 10;
+  }
+  25%,
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+    z-index: 0;
+  }
+}
+/* sur la 3e image */
+.esetec.chifoumi3 {
+  animation: chifoumi3 8s infinite;
+  animation-delay: 4s;
+}
+@keyframes chifoumi3 {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+    z-index: 0;
+  }
+}
+/* sur la 3e image */
+.esetec.chifoumi4 {
+  animation: chifoumi4 8s infinite;
+  animation-delay: 6s;
+}
+@keyframes chifoumi4 {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: translateY(0%);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+    z-index: 0;
+  }
+}
+
+/* animation sur les images de devinette */
+.esetec.devinette {
+  background-color: transparent;
+  border: 5px groove;
+  border-radius: 12px;
+  animation: devinette 6s infinite;
+}
+@keyframes devinette {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-15deg);
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(10deg);
+  }
+
+  80% {
+    opacity: 0;
+    transform: scale(1.2) rotate(20deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.8) rotate(-15deg);
+  }
+}
+
+/* style sur tic tac toe */
+.esetec.tic {
+  background-color: transparent;
+  border: 5px groove;
+  border-radius: 12px;
+  animation: tic 6s infinite;
+}
+@keyframes tic {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: translateY(0%);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+    z-index: 0;
+  }
+}
+.esetec.tac {
+  background-color: transparent;
+  border: 5px groove;
+  border-radius: 12px;
+  animation: tac 6s infinite;
+  animation-delay: 3s;
+}
+@keyframes tac {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) rotate(20deg);
+  }
+
+  8%,
+  20% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    z-index: 10;
+  }
+
+  25%,
+  100% {
+    opacity: 0;
+    transform: scale(1.2) rotate(-20deg);
+    z-index: 0;
+  }
+}
+
+/* arreter ici */
+
+.Competence,
+.projet {
+  counter-reset: section;
+  padding-left: 0;
+  background-color: #ffffff;
+  margin-bottom: 30px;
+  margin-right: 10%;
+  margin-left: 5%;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.Competence > li,
+.projet > li {
+  list-style: none;
+  counter-increment: section;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.Competence > li ::before,
+.projet > li ::before {
+  content: counter(section) ".";
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0055aa;
+}
+/* adaptation de la partie projet réalisé */
+@media (max-width: 992px) {
+  .Esetec {
+    border-left: 9px solid #0077cc;
+    border-right-color: transparent;
+    border-radius: 50px;
+    background: #f4f4f4;
+    line-height: 2em;
+    /* position: relative; */
+    flex-direction: column;
+    text-align: center;
+    margin-left: 0;
+  }
+  .site-esetec {
+    max-width: 90%;
+    text-align: center;
+    border-left: none;
+    border-radius: 12px;
+  }
+  .projet,
+  .Competence {
+    margin: 0;
+    border-radius: 8px;
+  }
+  .photos-esetec {
+    position: relative;
+    margin-left: -2%;
+    max-width: 100%;
+    border-radius: 2px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .photos-esetec .esetec {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .photos-esetec img,
+  #esetec-acceuil {
+    width: 100%;
+    height: auto;
+    max-width: none;
+  }
+}
+
+/* === Smartphone étroit === */
+@media (max-width: 600px) {
+  .Esetec {
+    padding: 10px;
+    margin-top: 20px;
+  }
+
+  .site-esetec {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .photos-esetec img {
+    width: 100%;
+    border-radius: 10px;
+  }
+}
+
+/* style sur le menu deroulant pour les filieres */
+summary {
+  cursor: pointer;
+}
+details summary {
+  list-style: none; /*enlêve la flêche par defaut*/
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #eee;
+  border: 4px inset #ccc;
+  margin-bottom: 2%;
+}
+/* creation de la flêche */
+details summary::after {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #004080;
+  border-bottom: 2px solid #004080;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+details[open] summary::after {
+  transform: rotate(-135deg);
+}
+
+/* formulaire */
+
+#formulaires {
+  min-height: 100vh;
+  background: url("https://images.unsplash.com/photo-1506765515384-028b60a970df?auto=format&fit=crop&w=1920&q=80")
+    no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2%;
+  flex-direction: column; /* ✅ aligne tout verticalement */
+}
+
+/* ---- Conteneur principal ---- */
+form {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 40px;
+  width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  color: #fff;
+}
+
+.formulaire h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8em;
+  letter-spacing: 1px;
+  color: white;
+}
+.fa-house {
+  color: #4caf50;
+} /* vert */
+.fa-user {
+  color: #2196f3;
+} /* bleu */
+.fa-code {
+  color: #ff9800;
+} /* orange */
+.fa-briefcase {
+  color: #9c27b0;
+} /* violet */
+nav .fa-phone {
+  color: #f44336;
+} /* rouge */
+
+/* ---- Champs du formulaire ---- */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #444;
+  font-size: 18px;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+  width: 90%;
+  padding: 12px 15px 12px 45px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.85);
+  color: #333;
+  font-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  box-shadow: 0 0 8px rgba(37, 117, 252, 0.7);
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+/* style sur le mot de passe */
+.password-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.password-group input {
+  padding-right: 42px; /* espace pour le bouton */
+}
+.password-group button#togglePassword {
+  position: absolute;
+  right: 40px;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+}
+.password-group button#togglePassword:focus {
+  outline: 2px solid rgba(37, 117, 252, 0.6);
+  border-radius: 6px;
+}
+
+/* ---- Boutons ---- */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.btn {
+  flex: 1;
+  margin: 5px;
+  padding: 12px;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: translateY(-2px);
+}
+/* couleur sur les icones */
+.input-group i.fa-user {
+  color: #ff9800;
+} /* Nom */
+.input-group i.fa-user-pen {
+  color: #4caf50;
+} /* Prénom */
+.input-group i.fa-calendar {
+  color: #9c27b0;
+} /* Date */
+.input-group i.fa-venus-mars {
+  color: #e91e63;
+} /* Sexe */
+.input-group i.fa-envelope {
+  color: #2196f3;
+} /* Email */
+.input-group i.fa-lock {
+  color: #f44336;
+} /* Mot de passe */
+.input-group i.fa-phone {
+  color: #00bcd4;
+} /* Téléphone */
+.input-group i.fa-comment {
+  color: #ffc107;
+} /* Commentaire */
+
+/* ---- Responsive ---- */
+@media (max-width: 450px) {
+  .formulaire {
+    width: 90%;
+    padding: 30px;
+  }
+  form {
+    padding: 40px;
+    width: 200px;
+  }
+}
+/* style sur le bas de page (footer) */
+footer {
+  padding: 1%;
+  background-color: #9ac0cd;
+  border-left: 6px double #7fffd4;
+  border-bottom: 10px inset #7fffd4;
+  border-radius: 12px;
+  box-shadow: 15px 20px 8px;
+}
+.contact label,
+.reseau label {
+  font-size: 1.4em;
+  letter-spacing: 1px;
+  margin-left: 5%;
+}
+#Contact i {
+  transition: color 0.3s;
+  cursor: pointer;
+}
+/* Couleurs spécifiques */
+.fa-facebook {
+  color: #1877f2;
+}
+.fa-whatsapp {
+  color: #25d366;
+}
+.fa-phone {
+  color: #28a745;
+}
+.fa-envelope {
+  color: #ff9800;
+}
+#Contact a,
+#Contact em {
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #004080;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 1px;
+  margin-left: 12px;
+}
+#Contact a:hover {
+  color: #ff00ff;
+}
+.reseau {
+  overflow-wrap: break-word;
+}
+.echange {
+  margin: 2%;
+  font-size: 1.4em;
+  font-weight: bold;
+  font-style: oblique;
+  word-spacing: 2em;
+}
+.pied {
+  font-size: 1.2em;
+  font-weight: bolder;
+  margin-left: 5%;
+  letter-spacing: 0.2em;
+  word-spacing: 0.5em;
+}
