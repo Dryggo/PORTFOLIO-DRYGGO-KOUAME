@@ -1,4 +1,6 @@
 
+// pour la validation du numéro de telephone
+
 document.addEventListener("DOMContentLoaded", () => {
   const input = document.querySelector("#telephone");
   const output = document.querySelector("#resultat");
@@ -31,39 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const numero = iti.getNumber();
     alert("✅ Formulaire envoyé avec succès !\nNuméro : " + numero);
-    // form.submit() si tu veux envoyer réellement le formulaire
+   
+    // Crée un champ caché avec le numéro formaté
+    const hiddenInput = document.createElement("input");
+    hiddenInput.type = "hidden";
+    hiddenInput.name = "telephone";
+    hiddenInput.value = numero;
+    form.appendChild(hiddenInput);
+
+    // Maintenant, on envoie réellement le formulaire à Web3Forms
+    form.submit();
   });
-});
-
-// pour le mot de pass
-document.addEventListener("DOMContentLoaded", () => {
-  const pwdInput = document.getElementById("mot-de-passe");
-  const toggle = document.getElementById("togglePassword");
-
-  if (pwdInput && toggle) {
-    toggle.addEventListener("click", (e) => {
-      // Empêche le bouton d'envoyer le formulaire si placé à l'intérieur d'un <form>
-      e.preventDefault();
-
-      const isHidden = pwdInput.type === "password";
-      pwdInput.type = isHidden ? "text" : "password";
-
-      // Mettre à jour l'icône si tu utilises Font Awesome
-      const icon = toggle.querySelector("i");
-      if (icon) {
-        icon.classList.toggle("fa-eye");
-        icon.classList.toggle("fa-eye-slash");
-      }
-
-      // Accessibilité
-      toggle.setAttribute("aria-pressed", String(isHidden));
-      toggle.setAttribute(
-        "aria-label",
-        isHidden ? "Masquer le mot de passe" : "Afficher le mot de passe"
-      );
-
-      // Maintenir le focus dans le champ mot de passe (UX)
-      pwdInput.focus();
-    });
-  }
 });
