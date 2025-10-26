@@ -18,6 +18,18 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"
     />
+
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PE1GTZEK70"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-PE1GTZEK70');
+  </script>
+
+    
   </head>
   <body>
     <header>
@@ -410,7 +422,19 @@
 
 <form action="https://api.web3forms.com/submit" method="POST" id="forme-identification">
   <input type="hidden" name="access_key" value="8a9d1eb5-ec62-4b02-8f17-fb80514570e6">
-  
+            <!-- Identifier le type de formulaire -->
+            <input
+                type="hidden"
+                name="site"
+                value="dryggo.github.io/mon-portfolio-dryggo-kouame/"
+            />
+            <input
+                type="hidden"
+                name="subject"
+                value="Nouveau message depuis dryggo.github.io/mon-portfolio-dryggo-kouame/"
+            />
+            <input type="hidden" name="form_type" value="contact" />
+
             <!-- le corps du formulaire -->
             <!-- le nom -->
             <div class="input-group">
@@ -469,27 +493,6 @@
                 required
                 title="Veuillez entrer une adresse e-mail valide."
               />
-            </div>
-
-            <!-- Champ mot de passe (avec icône pour afficher/masquer) -->
-            <div class="input-group password-group">
-              <i class="fa-solid fa-lock"></i>
-              <input
-                type="password"
-                id="mot-de-passe"
-                name="mot-de-passe"
-                required
-                minlength="6"
-                placeholder="Mot de passe"
-              />
-              <button
-                type="button"
-                id="togglePassword"
-                aria-pressed="false"
-                aria-label="Afficher le mot de passe"
-              >
-                <i class="fa-solid fa-eye"></i>
-              </button>
             </div>
 
             <div class="input-group">
@@ -572,4 +575,5 @@
     <script src="script.js"></script>
   </body>
 </html>
+
 
