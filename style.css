@@ -1011,32 +1011,7 @@ textarea {
   resize: none;
   height: 80px;
 }
-/* style sur le mot de passe */
-.password-group {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.password-group input {
-  padding-right: 42px; /* espace pour le bouton */
-}
-.password-group button#togglePassword {
-  position: absolute;
-  right: 40px;
-  background: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  padding: 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1em;
-}
-.password-group button#togglePassword:focus {
-  outline: 2px solid rgba(37, 117, 252, 0.6);
-  border-radius: 6px;
-}
+
 
 /* ---- Boutons ---- */
 .btn-group {
@@ -1079,9 +1054,7 @@ textarea {
 .input-group i.fa-envelope {
   color: #2196f3;
 } /* Email */
-.input-group i.fa-lock {
-  color: #f44336;
-} /* Mot de passe */
+
 .input-group i.fa-phone {
   color: #00bcd4;
 } /* Téléphone */
@@ -1162,3 +1135,4 @@ footer {
   letter-spacing: 0.2em;
   word-spacing: 0.5em;
 }
+
