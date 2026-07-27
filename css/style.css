@@ -1,0 +1,975 @@
+/* Reset de base + couleurs globales de la page */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0c1016;
+  color: #e7eaee;
+  font-family: "Manrope", sans-serif;
+}
+:root {
+  /* Taille de texte des paragraphes : s'adapte entre 16px et ~18.5px
+     selon la largeur de l'écran, au lieu d'être figée */
+  --taille-texte: clamp(1rem, 0.92rem + 0.4vw, 1.15rem);
+}
+
+/* Fond sombre qui recouvre toute la page derrière le popup */
+.popup-fond {
+  position: fixed;
+  /* fixed = reste à la même place même si on scrolle */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(12, 16, 22, 0.85);
+  /* rgba avec 0.85 = fond charbon presque opaque, laisse deviner
+     la page en dessous sans qu'elle distraie */
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  /* plus haut que .nav (100) pour passer par-dessus tout */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* centre .popup-boite horizontalement et verticalement dans l'écran */
+
+  opacity: 0;
+  pointer-events: none;
+  /* caché par défaut : le JS ajoutera une classe pour l'afficher */
+  transition: opacity 0.3s ease;
+}
+
+/* Quand cette classe est ajoutée par le JS, le popup devient visible */
+.popup-fond.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* La boîte blanche/sombre au centre */
+.popup-boite {
+  position: relative;
+  /* relative = sert de repère pour positionner la croix en absolute juste après */
+  background: #151b24;
+  border: 1px solid #262f3c;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 380px;
+  width: 90%;
+  /* 90% + max-width : évite que la boîte touche les bords sur mobile */
+  text-align: center;
+
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  /* léger effet de zoom à l'ouverture, combiné avec l'opacité du fond */
+}
+
+.popup-fond.visible .popup-boite {
+  transform: scale(1);
+}
+
+/* Le bouton croix, en haut à droite de la boîte */
+.popup-fermer {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: #8993a4;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 6px;
+  transition: color 0.2s ease;
+}
+
+.popup-fermer:hover {
+  color: #ff6a3d;
+}
+
+.popup-titre {
+  font-family: "Space Mono", monospace;
+  font-size: 1.1rem;
+  color: #e7eaee;
+  margin-bottom: 10px;
+}
+
+.popup-texte {
+  color: #8993a4;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+/* Le bouton télécharger réutilise .btn.btn--principal déjà défini pour home,
+   on ajoute juste display: block pour qu'il prenne toute la largeur ici */
+.popup-bouton {
+  display: block;
+}
+
+/*1. l'entete de la page */
+/* pour la barre de navigation */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 16px 24px;
+  background: rgba(12, 16, 22, 0.85); /* charbon bleuté semi-transparent */
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #262f3c;
+}
+
+/* Le lien qui contient le logo */
+.nav_logo {
+  display: flex;
+  align-items: center;
+}
+
+/* La taille du logo dans le nav — petit, discret */
+.nav_logo-img {
+  height: 40px;
+  width: 40px;
+}
+@media (max-width: 720px) {
+  .nav_logo-img {
+    height: 34px;
+    width: 34px;
+  }
+}
+/* pour les liens de la barre de navigation */
+.nav_lien {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1rem);
+  color: #8993a4;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+/* pour les liens de la barre de navigation qui sont actifs */
+.nav_lien:hover,
+.nav_lien.actif {
+  color: #ff6a3d;
+  border-color: rgba(255, 106, 61, 0.3);
+  background: rgba(255, 106, 61, 0.08);
+}
+/* Le bouton hamburger, caché par défaut (grand écran) */
+.nav_hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 101;
+}
+
+/* Une barre individuelle du hamburger */
+.nav_barre {
+  width: 22px;
+  height: 2px;
+  background: #e7eaee;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Sur petit écran : on cache les liens par défaut et on affiche le hamburger */
+@media (max-width: 720px) {
+  .nav {
+    justify-content: space-between;
+    padding: 14px 20px;
+  }
+
+  .nav_hamburger {
+    display: flex;
+  }
+
+  .nav_liens {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background: #0c1016;
+    border-bottom: 1px solid #262f3c;
+    padding: 20px;
+    gap: 4px;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease;
+  }
+
+  .nav_liens.ouvert {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav_lien {
+    padding: 12px 14px;
+  }
+}
+/* 2. pour l'acceuil */
+/* .hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 140px 24px 100px;
+  max-width: 900px;
+  margin: 0 auto;
+} */
+.hero {
+  min-height: 90vh;
+  padding: 140px 24px 100px;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  /* On passe de "colonne centrée" à "ligne avec 2 blocs" */
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* centre verticalement texte et photo l'un par rapport à l'autre */
+  justify-content: space-between;
+  gap: 60px;
+}
+
+/* Le bloc texte prend tout l'espace restant à côté de la photo */
+.hero__contenu {
+  flex: 1;
+  /* flex: 1 = "prends tout l'espace disponible qui reste
+     après que la photo ait pris sa propre taille" */
+}
+
+/* Conteneur de la photo : taille fixe, ne rétrécit pas */
+.hero__photo-conteneur {
+  flex-shrink: 0;
+  /* flex-shrink: 0 empêche ce bloc de rétrécir si l'espace manque,
+     contrairement au texte à côté qui, lui, peut se compresser */
+  width: 220px;
+  height: 220px;
+  border-radius: 50%; /* 50% = cercle parfait */
+  border: 3px solid #ff6a3d; /* liseré orange, cohérent avec le thème */
+  overflow: hidden; /* coupe l'image en cercle même si elle est carrée à la base */
+}
+
+/* L'image elle-même remplit son conteneur sans se déformer */
+.hero__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* object-fit: cover = l'image remplit tout l'espace disponible
+     en la recadrant si besoin, sans jamais l'étirer/déformer */
+}
+
+/* Sur petit écran, on empile photo au-dessus du texte */
+@media (max-width: 720px) {
+  .hero {
+    flex-direction: column-reverse;
+    /* column-reverse = empilement vertical, mais dans l'ordre inverse du HTML :
+       la photo (écrite en 2ᵉ dans le HTML) apparaît donc en 1er visuellement */
+    text-align: center;
+  }
+
+  .hero__photo-conteneur {
+    width: 160px;
+    height: 160px;
+  }
+}
+/* pour le badge de l'acceuil */
+.hero__badge {
+  font-family: "Space Mono", monospace;
+  font-size: 15px;
+  color: #57d9c4; /* teal signal, utilisé ici en petite touche */
+  margin-bottom: 20px;
+}
+/* pour le titre de l'acceuil */
+.hero__titre {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.1;
+  color: #e7eaee;
+  margin-bottom: 24px;
+}
+/* pour le titre de l'acceuil qui est accentué */
+.hero__titre--accent {
+  font-size: clamp(1.5rem, 4vw, 1.5rem);
+  display: block;
+  color: #ff6a3d; /* accent orange */
+}
+/* pour l'accroche de l'acceuil */
+.hero__accroche {
+  font-family: "Manrope", sans-serif;
+  font-size: var(--taille-texte);
+  color: #8993a4;
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+/* pour l'onde de l'acceuil */
+.hero__onde {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 48px;
+  margin-bottom: 44px;
+}
+/* pour les barres de l'onde de l'acceuil */
+.hero__onde .barre {
+  width: 4px;
+  background: #57d9c4;
+  border-radius: 2px;
+  opacity: 0.7;
+  animation: onde-anim 1.4s ease-in-out infinite;
+}
+/* pour l'animation des barres de l'onde de l'acceuil */
+@keyframes onde-anim {
+  0%,
+  100% {
+    height: 20%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+/* pour les actions de l'acceuil */
+.hero__actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+@media (max-width: 720px) {
+  /* Force une marge horizontale garantie sur le bloc de texte */
+  .hero__contenu {
+    width: 100%;
+    padding: 0 16px;
+    /* padding directement sur ce conteneur, indépendamment
+       de celui de .hero — ça garantit la marge même si
+       .hero__contenu s'étire pour remplir tout l'espace */
+  }
+
+  /* Centre les barres de l'onde et l'empêche de déborder */
+  .hero__onde {
+    justify-content: center;
+    /* centre les barres horizontalement au lieu qu'elles
+       partent collées à gauche */
+    max-width: 100%;
+    overflow: hidden;
+    /* empêche les barres de dépasser la largeur de l'écran
+       si leur total (largeur + espacements) est légèrement trop grand */
+  }
+  /* la partie action */
+  .hero__actions {
+    flex-direction: column;
+    align-items: center;
+    /* align-items: center centre chaque bouton horizontalement
+       à l'intérieur de .hero__actions, au lieu de les étirer */
+    width: 100%;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    /* max-width plafonne la largeur du bouton à 280px maximum,
+       même si son conteneur parent fait 100% de l'écran.
+       Combiné à align-items: center ci-dessus, ça laisse
+       automatiquement de l'espace égal à gauche et à droite */
+    text-align: center;
+  }
+}
+/* pour le bouton de l'acceuil */
+.btn {
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  padding: 13px 26px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+/* pour le bouton principal de l'acceuil */
+.btn--principal {
+  background: #ff6a3d;
+  color: #0c1016;
+  font-weight: 700;
+}
+/* pour le bouton principal de l'acceuil qui est hover */
+.btn--principal:hover {
+  background: #ff8259;
+}
+/* pour le bouton secondaire de l'acceuil */
+.btn--secondaire {
+  border: 1px solid #262f3c;
+  color: #e7eaee;
+}
+
+.btn--secondaire:hover {
+  border-color: #ff6a3d;
+  color: #ff6a3d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__onde .barre {
+    animation: none;
+  }
+}
+
+/* 3. pour le profil ou a propos */
+/* Bloc de la section entière : centre le contenu et limite sa largeur */
+.apropos {
+  padding: 140px 24px 100px; /* espace haut/bas et gauche/droite, pour ne pas coller aux bords */
+  max-width: 980px; /* largeur max du contenu, même sur grand écran */
+  margin: 0 auto; /* centre horizontalement (0 = haut/bas, auto = gauche/droite calculé automatiquement) */
+}
+
+/* Le petit repère "94.5 FM" au-dessus du titre */
+.apropos__label {
+  font-family:
+    "Space Mono", monospace; /* police mono, cohérente avec le thème */
+  font-size: 13px; /* petite taille, c'est un repère pas un titre */
+  color: #ff6a3d; /* couleur accent orange */
+  margin-bottom: 10px; /* espace avant le titre en dessous */
+}
+
+/* Le titre "Profil" */
+.apropos__titre {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  /* clamp(min, préféré, max) = une fonction CSS qui dit :
+     "ne descends jamais sous 1.6rem, ne dépasse jamais 2.2rem,
+     et entre les deux, adapte-toi à 3% de la largeur de l'écran (3vw)."
+     Ça évite d'écrire des media queries juste pour ajuster une taille de texte. */
+  font-weight: 700; /* 700 = gras */
+  margin-bottom: 56px; /* espace avant la grille en dessous */
+}
+
+/* Le conteneur qui organise texte + stats en 2 colonnes */
+.apropos__grille {
+  display: grid;
+  /* display: grid transforme cet élément en conteneur de grille :
+     ses enfants directs (.apropos__texte et .apropos__stats)
+     vont se ranger dans les colonnes qu'on définit juste en dessous. */
+
+  grid-template-columns: 1.3fr 1fr;
+  /* Définit 2 colonnes. "fr" = fraction, une unité qui répartit l'espace disponible.
+     1.3fr et 1fr veulent dire : la colonne de gauche prend 1.3 part,
+     celle de droite 1 part — donc la gauche est un peu plus large,
+     proportionnellement à l'espace total (pas en pixels fixes). */
+
+  gap: 60px;
+  /* Espace entre les colonnes (et entre les lignes si jamais il y en avait plusieurs) */
+
+  align-items: start;
+  /* Aligne le contenu de chaque colonne en haut,
+     au cas où une colonne est plus haute que l'autre */
+}
+
+/* Le texte de présentation (colonne de gauche) */
+.apropos__texte p {
+  color: #8993a4; /* gris texte secondaire */
+  font-size: var(
+    --taille-texte
+  ); /* légèrement plus grand que 1rem (16px) par défaut */
+  margin-bottom: 16px; /* espace entre chaque paragraphe */
+}
+
+/* Les mots en <strong> dans le texte (BTS Informatique, ESETEC, etc.) */
+.apropos__texte strong,
+.hero__accroche strong {
+  color: #e7eaee; /* blanc cassé, pour ressortir du gris du texte autour */
+  /* Note : <strong> met déjà le texte en gras par défaut du navigateur,
+     on n'a donc pas besoin d'ajouter font-weight ici */
+}
+
+/* Conteneur de la photo dans le profil */
+.apropos__photo-conteneur {
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  /* aspect-ratio: 1/1 force le conteneur à rester carré,
+     peu importe la largeur qu'il prend (utile ici car max-width est flexible) */
+  border-radius: 16px; /* carré aux coins arrondis, pas un cercle */
+  border: 1px solid #262f3c;
+  overflow: hidden;
+  margin-bottom: 24px; /* espace avant le 1er bloc stat en dessous */
+}
+
+.apropos__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Le conteneur des 3 blocs stats (colonne de droite) */
+.apropos__stats {
+  display: flex; /* range les 3 blocs .stat les uns en dessous des autres */
+  flex-direction: column; /* column = empilement vertical (par défaut ce serait horizontal) */
+  gap: 18px; /* espace entre chaque bloc stat */
+}
+
+/* Un bloc stat individuel */
+.stat {
+  border-left: 2px solid #ff6a3d; /* trait vertical orange à gauche, comme un repère visuel */
+  padding-left: 16px; /* espace entre le trait et le texte */
+}
+
+/* Le chiffre en grand (2+, 1, BTS) */
+.stat__chiffre {
+  font-family: "Space Mono", monospace;
+  font-size: 1.6rem;
+  color: #ff6a3d;
+}
+
+/* La légende sous le chiffre */
+.stat__label {
+  font-size: 1rem;
+  color: #8993a4;
+}
+
+/* Sur petit écran, on repasse en 1 seule colonne */
+@media (max-width: 720px) {
+  /* @media = une "condition" en CSS : les règles à l'intérieur
+     ne s'appliquent que si l'écran fait 720px de large ou moins. */
+  .apropos__grille {
+    grid-template-columns: 1fr;
+    /* une seule colonne à pleine largeur : texte puis stats l'un sous l'autre */
+  }
+}
+
+/* pour la section projets */
+/* Conteneur de la section entière */
+.projets {
+  padding: 140px 24px 100px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Repère "101.2 FM" */
+.projets__label {
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  color: #ff6a3d;
+  margin-bottom: 10px;
+}
+
+/* Titre "Projets" */
+.projets__titre {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+/* La carte du projet vedette */
+.projet-vedette {
+  background: #151b24; /* surface légèrement plus claire que le fond */
+  border: 1px solid #262f3c;
+  border-radius: 16px;
+  padding: 44px;
+  margin-bottom: 28px;
+  position: relative; /* nécessaire pour que le halo ci-dessous se positionne par rapport à cette carte */
+  overflow: hidden;
+  /* overflow: hidden empêche le halo décoratif de déborder
+     visuellement en dehors des coins arrondis de la carte */
+}
+
+/* Halo décoratif discret en haut à droite de la carte vedette */
+.projet-vedette::before {
+  /* ::before crée un élément "fantôme" avant le contenu réel de .projet-vedette,
+     utile pour des décorations qui n'ont pas leur place dans le HTML */
+  content: ""; /* obligatoire pour qu'un ::before s'affiche, même vide */
+  position: absolute; /* se positionne par rapport à .projet-vedette (qui a position: relative) */
+  top: 0;
+  right: 0;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 106, 61, 0.12),
+    transparent 70%
+  );
+  /* radial-gradient = dégradé qui part d'un point central vers l'extérieur,
+     ici de l'orange très transparent vers du transparent total */
+  pointer-events: none;
+  /* empêche ce halo de bloquer les clics sur le contenu qui serait en dessous */
+}
+
+/* L'étiquette "Projet phare — client réel" */
+.projet-vedette__tag {
+  display: inline-block;
+  /* inline-block = l'élément ne prend que la largeur de son texte,
+     contrairement à un <p> normal qui prend toute la largeur disponible */
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  color: #57d9c4;
+  border: 1px solid rgba(87, 217, 196, 0.3);
+  background: rgba(87, 217, 196, 0.08);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+
+/* Titre du projet vedette */
+.projet-vedette__titre {
+  font-family: "Space Mono", monospace;
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+}
+
+/* Description du projet vedette */
+.projet-vedette__texte {
+  font-size: var(--taille-texte);
+  color: #8993a4;
+  max-width: 600px;
+  margin-bottom: 22px;
+}
+
+/* Conteneur des étiquettes de technos (vedette) */
+.projet-vedette__stack {
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-wrap: wrap permet aux étiquettes de passer à la ligne
+     automatiquement si elles ne rentrent plus sur une seule ligne */
+  gap: 8px;
+}
+
+/* Style d'une étiquette de techno (réutilisé partout : "pill" = "pilule") */
+.pill {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 20px; /* rayon élevé = coins totalement arrondis, forme de pilule */
+  background: #1d2530;
+  border: 1px solid #262f3c;
+  color: #8993a4;
+}
+
+/* Conteneur des 2 cartes de projets secondaires */
+.projets__grille {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* repeat(2, 1fr) = raccourci pour "2 colonnes de largeur égale",
+     équivalent à écrire "1fr 1fr" */
+  gap: 20px;
+}
+
+/* Une carte de projet secondaire */
+.projet-carte {
+  background: #151b24;
+  border: 1px solid #262f3c;
+  border-radius: 14px;
+  padding: 30px;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+  /* transition anime le changement de ces 2 propriétés sur 0.2s,
+     au lieu que le changement soit instantané */
+}
+
+/* Effet au survol d'une carte secondaire */
+.projet-carte:hover {
+  border-color: #ff6a3d;
+  transform: translateY(-3px);
+  /* translateY(-3px) déplace la carte de 3px vers le haut,
+     donnant une impression de légèreté au survol */
+}
+
+/* Titre d'une carte secondaire */
+.projet-carte__titre {
+  font-family: "Space Mono", monospace;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+/* Description d'une carte secondaire */
+.projet-carte__texte {
+  color: #8993a4;
+  font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1rem);
+  margin-bottom: 16px;
+}
+
+/* Sur petit écran, les 2 cartes passent en 1 colonne */
+@media (max-width: 720px) {
+  .projets__grille {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* pour la medaille de la carte du hackathon */
+/* Variante de .pill pour mettre en avant un classement/résultat */
+.pill--medaille {
+  display: inline-block;
+  margin-bottom: 12px;
+  border-color: #ff6a3d;
+  color: #ff6a3d;
+  background: rgba(255, 106, 61, 0.08);
+}
+/* fin projets */
+
+/* competences */
+/* Conteneur qui empile toutes les compétences */
+/* Conteneur de la section entière */
+.competences {
+  padding: 140px 24px 100px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Repère "104.7 FM" */
+.competences__label {
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  color: #ff6a3d;
+  margin-bottom: 10px;
+}
+
+/* Titre "Compétences" */
+.competences__titre {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+.competences__liste {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  /* column = empilement vertical, comme pour .apropos__stats plus haut */
+}
+
+/* Un bloc "nom de compétence + sa barre" */
+.competence-item {
+  width: 100%;
+}
+
+/* Ligne du haut : nom à gauche, pourcentage à droite */
+.competence-header {
+  display: flex;
+  justify-content: space-between;
+  /* space-between pousse le 1er enfant tout à gauche
+     et le 2ᵉ tout à droite, avec l'espace vide entre les deux */
+  margin-bottom: 8px;
+  font-family: "Space Mono", monospace;
+  font-size: clamp(0.9rem, 0.8rem + 0.4vw, 1.05rem);
+}
+/* Nouvelle classe pour le sous-titre "Développement web" — actuellement
+   c'est un <span> sans style, donc il utilise la taille par défaut
+   du navigateur (16px), plus petite que le reste de ta section */
+.competence-categorie {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.15rem);
+  color: #ff6a3d;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: block;
+}
+.competence-nom {
+  color: #e7eaee;
+}
+
+.competence-pourcentage {
+  color: #ff6a3d;
+}
+
+/* La barre "vide" (le fond gris de la barre) */
+.competence-barre {
+  width: 100%;
+  height: 10px;
+  background: #1d2530;
+  border: 1px solid #262f3c;
+  border-radius: 5px;
+  overflow: hidden;
+  /* overflow: hidden coupe le remplissage aux coins arrondis de la barre,
+     sinon il dépasserait en carré par-dessus les coins ronds */
+}
+
+/* Le remplissage à l'intérieur de la barre */
+.competence-remplissage {
+  height: 100%;
+  width: 0;
+  /* Elle démarre à 0 : elle va s'agrandir jusqu'à --niveau
+     uniquement quand la classe .remplie sera ajoutée par le JS (juste en dessous) */
+  background: linear-gradient(90deg, #ff6a3d, #57d9c4);
+  /* linear-gradient(90deg, ...) = dégradé qui va de gauche (90deg) à droite,
+     de l'orange vers le teal */
+  border-radius: 4px;
+  transition: width 1.2s ease;
+  /* transition anime le changement de largeur sur 1.2 seconde,
+     au lieu que la barre saute instantanément à sa taille finale */
+}
+
+/* Quand cette classe est ajoutée (par le JS), la barre prend sa vraie largeur */
+/* .competence-remplissage.remplie { */
+/* width: var(--niveau); */
+/* var(--niveau) va chercher la valeur qu'on a mise en inline dans le HTML
+     (90%, 85%, 75%...) — chaque barre a donc sa propre largeur
+     sans qu'on ait besoin d'écrire une règle CSS différente pour chacune */
+/* } */
+
+/* Conteneur de la section entière */
+.contact {
+  padding: 140px 24px 100px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Repère "107.9 FM" */
+.contact__label {
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  color: #ff6a3d;
+  margin-bottom: 10px;
+}
+
+/* Titre "Contact" */
+.contact__titre {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Phrase d'intro */
+.contact__texte {
+  font-size: var(--taille-texte);
+  color: #8993a4;
+  max-width: 480px;
+  margin-bottom: 30px;
+}
+
+/* Conteneur qui empile les 3 liens verticalement */
+.contact__liens {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Un lien de contact individuel */
+.contact-lien {
+  font-family: "Space Mono", monospace;
+  font-size: 1.1rem;
+  color: #e7eaee;
+  text-decoration: none;
+  padding: 16px 0;
+  border-bottom: 1px solid #262f3c;
+  display: flex;
+  justify-content: space-between;
+  /* space-between écarte "Email" à gauche et l'adresse à droite,
+     même logique que .competence-header vue plus haut */
+  align-items: center;
+  gap: 20px;
+  /* gap garantit un espace minimum entre les 2 éléments,
+     même si l'un d'eux est long — avant, sans gap,
+     rien n'empêchait "Email" et l'adresse de se toucher
+     si l'espace naturel entre eux devenait trop faible */
+  transition: color 0.2s ease;
+}
+
+/* Effet au survol */
+.contact-lien:hover {
+  color: #ff6a3d;
+}
+
+/* Le détail à droite (l'adresse email, le pseudo GitHub...) */
+.contact-lien__detail {
+  font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1rem);
+  color: #8993a4;
+  text-align: right;
+  overflow-wrap: break-word;
+  /* overflow-wrap: break-word autorise le texte à couper
+     n'importe où (même au milieu d'un mot) s'il est trop long
+     pour tenir sur une ligne, plutôt que de déborder du conteneur */
+}
+@media (max-width: 720px) {
+  .contact-lien {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    /* sur mobile, le nom ("Email") passe au-dessus,
+       l'adresse en dessous — plus de risque de collision */
+  }
+
+  .contact-lien__detail {
+    text-align: left;
+  }
+}
+
+/* Le pied de page tout en bas du site */
+.pied-de-page {
+  text-align: center;
+  padding: 40px 24px;
+  font-family: "Space Mono", monospace;
+  font-size: 18px;
+  color: #8993a4;
+  border-top: 1px solid #262f3c;
+}
+
+@media (max-width: 720px) {
+  .pied-de-page {
+    font-size: 12px;
+  }
+}
+/* Bouton flottant, fixé en bas à droite de l'écran */
+.cv-flottant {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  /* moins élevé que .nav (100) et .popup-fond (200),
+     pour ne jamais passer devant eux si les deux sont visibles en même temps */
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #ff6a3d;
+  color: #0c1016;
+  font-family: "Space Mono", monospace;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 20px 20px;
+  border-radius: 30px;
+  /* border-radius élevé = forme de pilule, cohérent avec tes .pill ailleurs */
+
+  box-shadow: 0 4px 20px rgba(255, 106, 61, 0.3);
+  /* seule ombre du site jusqu'ici, volontairement : ça fait ressortir
+     ce bouton comme un élément "flottant" au-dessus du reste,
+     contrairement au reste du design qui reste plat */
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cv-flottant:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(255, 106, 61, 0.45);
+}
+
+.cv-flottant__icone {
+  font-size: 19px;
+}
+
+/* Sur mobile, on garde juste l'icône pour ne pas prendre trop de place */
+@media (max-width: 720px) {
+  .cv-flottant {
+    bottom: 16px;
+    right: 16px;
+    padding: 20px 17px;
+  }
+
+  .cv-flottant__texte {
+    /* display: none; */
+    /* on masque juste le mot "CV", l'icône flèche suffit à comprendre l'action */
+  }
+}
